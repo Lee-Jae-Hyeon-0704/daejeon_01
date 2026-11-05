@@ -1,0 +1,932 @@
+<title>누들대전축제</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: 페이지 전체 노란 바탕 하나. 카드는 연노랑, 포인트는 빨강·주황·밝은 갈색 테두리와 글씨. 섹션 사이는 면발 물결선 */
+/* 의도적으로 라이트 테마 하나만 사용 (노란 바탕 고정) */
+:root{
+  color-scheme:light;
+  --bg:#FFEC9E;        /* 노란 바탕 (모든 섹션 공통) */
+  --card:#FFF8D9;      /* 연노랑 카드 */
+  --card-2:#FFF1B8;    /* 조금 진한 노랑 카드 */
+  --ink:#4A2C1A;       /* 본문 글씨 */
+  --muted:#7D5434;
+  --line:#C08A5B;      /* 밝은 갈색 테두리·그림자 */
+  --caramel:#E3B27E;   /* 밝은 갈색 */
+  --red:#E8321F;
+  --orange:#FF7A1A;
+  --f-hero:"Black Han Sans","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-num:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-weight:400;line-height:1.2;text-wrap:balance;margin:0}
+h2,h3,h4{font-family:var(--f-display)}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:6px}
+.eyebrow{display:inline-block;font-family:var(--f-num);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;background:var(--red);color:#fff;padding:3px 10px;border-radius:999px}
+.card{background:var(--card);border:2.5px solid var(--line);border-radius:22px;box-shadow:5px 5px 0 var(--line)}
+.hot-card{border-color:var(--red);box-shadow:5px 5px 0 var(--red)}
+.or-card{border-color:var(--orange);box-shadow:5px 5px 0 var(--orange)}
+
+/* 상단 바 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:3px solid var(--red)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.top .wrap{display:flex;gap:10px 16px;align-items:center;justify-content:space-between;padding-block:10px;flex-wrap:wrap}
+.top strong{font-family:var(--f-hero);font-weight:400;font-size:22px;color:var(--red)}
+.top nav{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:14px;font-weight:700}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--red)}
+
+/* 면발 물결선 */
+.wave{height:22px;background-image:
+  radial-gradient(circle at 12px -4px,transparent 13px,var(--c) 14px 18px,transparent 19px),
+  radial-gradient(circle at 0 26px,transparent 13px,var(--c) 14px 18px,transparent 19px);
+  background-size:24px 22px;background-repeat:repeat-x;opacity:.9}
+
+/* 히어로: 가을 축제 포스터 장면 — 노란 하늘, 은행잎, 밝은 갈색 도시 실루엣, 줄무늬 천막, 나무 테이블 위 국수 그릇 */
+.scene{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFF7D6 0%,#FFF0B0 45%,#FFE48A 100%);min-height:clamp(600px,52vw,760px);isolation:isolate}
+.scene>svg.bgart{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.leaves{position:absolute;inset:0;z-index:1;pointer-events:none}
+.leaf{position:absolute;top:-6%;width:clamp(18px,2.2vw,30px);height:auto}
+.poster{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:clamp(24px,3vw,40px);padding-bottom:clamp(160px,15vw,210px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.halo{text-shadow:0 0 0 #fff,3px 0 0 #fff,-3px 0 0 #fff,0 3px 0 #fff,0 -3px 0 #fff,2px 2px 0 #fff,-2px 2px 0 #fff,2px -2px 0 #fff,-2px -2px 0 #fff}
+.kicker{font-family:var(--f-display);font-size:clamp(18px,2.4vw,30px);color:var(--red);transform:rotate(-6deg);position:relative;padding-bottom:6px;margin-bottom:2px}
+.kicker svg{position:absolute;left:-4%;bottom:-8px;width:108%;height:16px}
+.year{display:inline-flex;align-items:center;justify-content:center;gap:.04em;font-family:var(--f-hero);font-size:clamp(60px,8vw,112px);line-height:1;color:var(--ink);position:relative}
+.year .burst{position:absolute;width:clamp(36px,5vw,70px);height:auto}
+.year .burst.l{left:-.55em;top:.1em;transform:scaleX(-1)}
+.year .burst.r{right:-.55em;top:.1em}
+.year .zero{width:.78em;height:.78em;display:block}
+.festname{position:relative;font-family:var(--f-hero);font-size:clamp(52px,9.4vw,136px);line-height:1;margin-top:clamp(2px,.6vw,8px);white-space:nowrap}
+.festname .nd{color:var(--orange)}
+.festname .fe{color:var(--red);display:inline-block;transform:rotate(2deg)}
+.festname .nd span{display:inline-block}
+.festname .nd span:nth-child(odd){transform:translateY(-.04em) rotate(-3deg)}
+.festname .nd span:nth-child(even){transform:translateY(.03em) rotate(2deg)}
+.festname,.dates{text-shadow:0 0 0 #fff,4px 0 0 #fff,-4px 0 0 #fff,0 4px 0 #fff,0 -4px 0 #fff,3px 3px 0 #fff,-3px 3px 0 #fff,3px -3px 0 #fff,-3px -3px 0 #fff,5px 6px 0 rgba(192,138,91,.55)}
+.swoosh{display:block;width:clamp(220px,40vw,560px);height:auto;margin:-.6em auto 0;position:relative;z-index:-1}
+.dates{font-family:var(--f-hero);font-size:clamp(28px,3.8vw,48px);color:var(--red);margin-top:clamp(6px,1vw,12px);line-height:1.1}
+.dates small{font-size:.5em;color:var(--ink);margin:0 .1em}
+.hours{margin-top:10px;display:inline-block;background:#B5784A;color:#fff;font-family:var(--f-num);font-weight:700;font-size:clamp(18px,2.4vw,28px);padding:4px 28px;border-radius:999px;font-variant-numeric:tabular-nums;box-shadow:0 0 0 3px #fff}
+.firstday{margin-top:8px;font-weight:700;font-size:clamp(14px,1.6vw,18px);color:var(--ink)}
+.firstday b{color:var(--red)}
+.venue{margin-top:4px;font-family:var(--f-display);font-size:clamp(22px,3vw,36px);color:var(--ink)}
+.bowl-l{position:absolute;z-index:3;left:clamp(-20px,4vw,90px);bottom:clamp(14px,2vw,30px);width:clamp(130px,17vw,240px)}
+.bowl-l img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 0 rgba(160,104,63,.25))}
+.bowl-r{position:absolute;z-index:3;right:clamp(-10px,5vw,110px);bottom:clamp(14px,2vw,30px);width:clamp(110px,14vw,190px)}
+.bowl-r svg{display:block;width:100%;height:auto}
+.below{text-align:center}
+.below .wrap{padding-block:36px 44px;display:flex;flex-direction:column;align-items:center}
+.hero .lede{font-size:clamp(17px,2.2vw,20px);max-width:36em;color:var(--muted)}
+.hero .lede b{color:var(--ink)}
+.below .cta{justify-content:center}
+@media (max-width:560px){
+  .scene{min-height:640px}
+  .poster{padding-bottom:170px}
+  .year .burst{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .leaf{animation:fall var(--d,12s) linear var(--delay,0s) infinite}
+  @keyframes fall{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,25vh) rotate(90deg)}50%{transform:translate(-20px,50vh) rotate(180deg)}75%{transform:translate(25px,75vh) rotate(270deg)}100%{transform:translate(0,105vh) rotate(360deg)}}
+  .steam2{animation:rise 3s ease-in-out infinite}
+}
+@media (prefers-reduced-motion:reduce){
+  .leaf{top:var(--rest,10%)}
+}
+.facts{margin-top:26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.facts div{background:var(--card);padding:14px 16px;min-width:0;border:2px solid var(--line);border-radius:16px}
+.facts dt{font-size:12px;color:var(--muted);letter-spacing:.06em;font-weight:700}
+.facts dd{margin:2px 0 0;font-weight:700;font-size:15px;line-height:1.4}
+.facts .num{font-family:var(--f-num)}
+.cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;border:2.5px solid var(--line);background:var(--card);color:var(--ink);box-shadow:3px 3px 0 var(--line);transition:transform .15s,box-shadow .15s}
+.btn.primary{background:var(--red);color:#fff;border-color:var(--red);box-shadow:3px 3px 0 var(--caramel)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--line)}
+.bowl{position:relative;flex:0 0 clamp(120px,34vw,400px);max-width:100%}
+.bowl img{display:block;width:100%;height:auto;aspect-ratio:1328/1184}
+.badge{position:absolute;right:2%;top:4%;width:30%;aspect-ratio:1;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-size:clamp(14px,2.2vw,22px);line-height:1.15;transform:rotate(12deg);border:3px solid var(--orange);box-shadow:4px 4px 0 var(--line)}
+.badge b{display:block;font-family:var(--f-hero);font-weight:400;font-size:1.7em}
+
+
+/* 섹션별 배경 무늬 (노란 바탕 위에 한 톤 진한 노랑·연주황 선) */
+#noodles{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22160%22%20height%3D%2260%22%20viewBox%3D%220%200%20160%2060%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F4D47E%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M0%2015%20q20%20-12%2040%200%20t40%200%20t40%200%20t40%200%22/%3E%3Cpath%20d%3D%22M0%2024%20q20%20-12%2040%200%20t40%200%20t40%200%20t40%200%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M0%2045%20q20%20-12%2040%200%20t40%200%20t40%200%20t40%200%22/%3E%3C/g%3E%3C/svg%3E");background-size:160px 60px;background-repeat:repeat}
+#about{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22140%22%20height%3D%22140%22%20viewBox%3D%220%200%20140%20140%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F4D47E%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M18%2052%20h44%20q-2%2022%20-22%2024%20q-20%20-2%20-22%20-24z%22/%3E%3Cpath%20d%3D%22M28%2046%20l34%20-26%20M34%2050%20l34%20-24%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M88%20118%20h34%20q-2%2016%20-17%2018%20q-15%20-2%20-17%20-18z%22/%3E%3Cpath%20d%3D%22M96%20110%20q-4%20-6%200%20-12%20M106%20110%20q-4%20-6%200%20-12%22%20stroke%3D%22%23F6C99C%22/%3E%3C/g%3E%3C/svg%3E");background-size:140px 140px;background-repeat:repeat}
+#timetable{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22130%22%20height%3D%22130%22%20viewBox%3D%220%200%20130%20130%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F4D47E%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%2235%22%20cy%3D%2235%22%20r%3D%2220%22/%3E%3Cpath%20d%3D%22M35%2023%20v12%20l9%206%22%20stroke%3D%22%23F6C99C%22/%3E%3Ccircle%20cx%3D%2298%22%20cy%3D%2296%22%20r%3D%2214%22/%3E%3Cpath%20d%3D%22M98%2088%20v8%20h7%22%20stroke%3D%22%23F6C99C%22/%3E%3C/g%3E%3C/svg%3E");background-size:130px 130px;background-repeat:repeat}
+#map{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F4D47E%22%20stroke-width%3D%221.5%22%3E%3Cpath%20d%3D%22M0%200.75%20H96%20M0.75%200%20V96%22%20stroke-dasharray%3D%224%205%22/%3E%3C/g%3E%3Cpath%20d%3D%22M66%2070%20c-8%20-9%20-12%20-14%20-12%20-20%20a12%2012%200%200%201%2024%200%20c0%206%20-4%2011%20-12%2020z%22%20fill%3D%22none%22%20stroke%3D%22%23F6C99C%22%20stroke-width%3D%223%22/%3E%3Ccircle%20cx%3D%2266%22%20cy%3D%2250%22%20r%3D%224%22%20fill%3D%22%23F6C99C%22/%3E%3C/svg%3E");background-size:96px 96px;background-repeat:repeat}
+#food{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22150%22%20height%3D%22120%22%20viewBox%3D%220%200%20150%20120%22%3E%3Cg%20fill%3D%22none%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2040%20h60%20v10%20q-7.5%208%20-15%200%20q-7.5%208%20-15%200%20q-7.5%208%20-15%200%20q-7.5%208%20-15%200z%22%20stroke%3D%22%23F4D47E%22/%3E%3Cpath%20d%3D%22M25%2040%20v10%20M40%2040%20v10%20M55%2040%20v10%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M100%20104%20h36%20q-2%2014%20-18%2016%20q-16%20-2%20-18%20-16z%22%20stroke%3D%22%23F4D47E%22/%3E%3Cpath%20d%3D%22M110%2096%20q-4%20-6%200%20-12%20q4%20-6%200%20-12%20M124%2096%20q-4%20-6%200%20-12%20q4%20-6%200%20-12%22%20stroke%3D%22%23F6C99C%22/%3E%3C/g%3E%3C/svg%3E");background-size:150px 120px;background-repeat:repeat}
+#programs{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22160%22%20height%3D%22140%22%20viewBox%3D%220%200%20160%20140%22%3E%3Cg%20fill%3D%22none%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M20%2050%20a10%2010%200%200%201%206%20-18%20a12%2012%200%200%201%2022%200%20a10%2010%200%200%201%206%2018%20v10%20h-34z%22%20stroke%3D%22%23F4D47E%22/%3E%3Cpath%20d%3D%22M112%2040%20v-22%20l18%20-4%20v22%22%20stroke%3D%22%23F6C99C%22/%3E%3Ccircle%20cx%3D%22108%22%20cy%3D%2240%22%20r%3D%225%22%20stroke%3D%22%23F6C99C%22/%3E%3Ccircle%20cx%3D%22126%22%20cy%3D%2236%22%20r%3D%225%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M70%20104%20l5%2010%2011%201%20-8%207%203%2011%20-11%20-6%20-10%206%203%20-11%20-8%20-7%2011%20-1z%22%20stroke%3D%22%23F4D47E%22/%3E%3C/g%3E%3C/svg%3E");background-size:160px 140px;background-repeat:repeat}
+#transport{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22180%22%20height%3D%22110%22%20viewBox%3D%220%200%20180%20110%22%3E%3Cg%20fill%3D%22none%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%2220%22%20y%3D%2220%22%20width%3D%2256%22%20height%3D%2234%22%20rx%3D%228%22%20stroke%3D%22%23F4D47E%22/%3E%3Cpath%20d%3D%22M28%2030%20h40%22%20stroke%3D%22%23F4D47E%22/%3E%3Ccircle%20cx%3D%2234%22%20cy%3D%2256%22%20r%3D%225%22%20stroke%3D%22%23F6C99C%22/%3E%3Ccircle%20cx%3D%2262%22%20cy%3D%2256%22%20r%3D%225%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M0%2090%20h22%20M42%2090%20h22%20M84%2090%20h22%20M126%2090%20h22%20M168%2090%20h12%22%20stroke%3D%22%23F6C99C%22/%3E%3Cpath%20d%3D%22M130%2020%20c-7%20-8%20-10%20-12%20-10%20-17%22%20stroke%3D%22%23F4D47E%22/%3E%3C/g%3E%3C/svg%3E");background-size:180px 110px;background-repeat:repeat}
+#programs{background-position:20px 10px}
+/* 섹션 공통 */
+section.block{padding-block:64px}
+.head{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:32px;max-width:42em}
+.head h2{font-size:clamp(32px,5vw,50px)}
+.head p{color:var(--muted)}
+
+/* 대전의 면 */
+.stars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.star{padding:28px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.star .top-row{display:flex;gap:16px;align-items:center}
+.star .ico{flex:0 0 76px;height:76px;border-radius:50%;background:var(--bg);border:2.5px solid var(--line);display:grid;place-items:center}
+.star .ico svg{width:56px;height:56px}
+.star .kicker{font-size:13px;font-weight:700;color:var(--red)}
+.star h3{font-size:clamp(30px,4vw,40px)}
+.star p{color:var(--muted)}
+.star ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.star li{font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line)}
+.more{margin-top:32px;padding:24px 28px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center}
+.more h3{font-size:24px;color:var(--orange);flex:0 0 auto}
+.more p{flex:1 1 260px;min-width:0;color:var(--muted);font-size:15px}
+.chips{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;background:var(--bg);border:2px solid var(--line)}
+.chips span:nth-child(3n+2){border-color:var(--orange);color:#C2521A}
+.chips span:nth-child(3n){border-color:var(--red);color:var(--red)}
+
+/* 소개 */
+.intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.intro article{padding:28px}
+.intro h3{font-size:26px;margin-bottom:10px}
+.intro .tag{font-family:var(--f-num);font-size:12px;color:var(--red);letter-spacing:.14em;font-weight:700;display:block;margin-bottom:6px}
+.intro article p{color:var(--muted)}
+.slogan{grid-column:1/-1;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.slogan p{flex:1 1 300px;min-width:0}
+.slogan h3{font-size:clamp(30px,4.5vw,44px);color:var(--red);margin:0!important}
+
+/* 역사 */
+.rail{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;padding-top:32px}
+/* 철길: 위아래 레일 + 일정 간격의 침목 */
+.rail::before{content:"";position:absolute;left:0;right:0;top:2px;height:22px;
+  background:
+    linear-gradient(#B5784A,#B5784A) 0 4px/100% 4px no-repeat,
+    linear-gradient(#B5784A,#B5784A) 0 14px/100% 4px no-repeat,
+    repeating-linear-gradient(90deg,#E3B27E 0 9px,transparent 9px 24px)}
+.stop{position:relative;min-width:0}
+.stop::before{content:"";position:absolute;top:-30px;left:0;width:22px;height:22px;border-radius:50%;background:var(--red);border:4px solid var(--card)}
+.stop .when{font-family:var(--f-num);font-size:13px;color:var(--red);font-weight:700}
+.stop h3{font-size:22px;margin:6px 0 8px}
+.stop p{font-size:15px;color:var(--muted)}
+.credit{margin-top:28px;font-size:12px;color:var(--muted)}
+
+/* 시간표 */
+.tabs{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.tab{font:inherit;cursor:pointer;border:2.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:10px 18px;text-align:left;line-height:1.3;box-shadow:3px 3px 0 var(--line);transition:transform .15s}
+.tab:hover{transform:translateY(-2px)}
+.tab b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px}
+.tab small{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.tab[aria-selected="true"] small{color:#FFE680}
+.sched{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;align-items:start}
+.stage{padding:8px 0;overflow:hidden}
+.stage-h,.side-h{display:flex;justify-content:space-between;align-items:baseline;padding:14px 22px 10px;gap:12px;flex-wrap:wrap}
+.stage-h h3,.side-h h3{font-size:22px}
+.stage-h span,.side-h span{font-size:13px;color:var(--muted);font-weight:500}
+.bar{margin:0 22px;padding:8px 14px;border-radius:12px;background:var(--bg);font-size:14px;font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar .num{font-family:var(--f-num);color:var(--red)}
+.bar.open{margin-bottom:8px}
+.bar.close{margin-top:8px;margin-bottom:10px;border:2px dashed var(--caramel)}
+.bar.close .num{color:#A86A3C}
+ol.slots{list-style:none;margin:0;padding:0}
+.slot{display:grid;grid-template-columns:118px minmax(0,1fr);gap:16px;padding:16px 22px;border-top:2px dashed rgba(192,138,91,.45);align-items:start}
+.slot time{font-family:var(--f-num);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;padding-top:2px}
+.slot time i{display:block;font-style:normal;font-weight:500;font-size:12px;color:var(--muted)}
+.slot h4{font-size:20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.slot p{font-size:14px;color:var(--muted);margin-top:2px}
+.slot.chef{background:var(--card-2);box-shadow:inset 5px 0 0 var(--orange)}
+.slot.master{background:var(--card-2);box-shadow:inset 5px 0 0 var(--red)}
+.pill{font-family:var(--f-body);font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff}
+.pill.hot{background:var(--red)}
+.pill.chefp{background:var(--orange)}
+.side{display:flex;flex-direction:column;gap:14px}
+.allday{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px 20px}
+.allday .where{font-size:12px;font-weight:700;color:var(--red);letter-spacing:.06em}
+.allday h4{margin:2px 0 4px;font-size:20px}
+.allday p{font-size:14px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin-top:16px}
+
+/* 셰프 */
+.chefs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px;max-width:760px}
+.chefcard{padding:22px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.chefcard .day{font-family:var(--f-num);font-size:12px;font-weight:700;color:var(--red)}
+.chefcard h3{font-size:26px}
+.chefcard p{font-size:14px;color:var(--muted)}
+.chefcard .photo{display:block;width:96px;height:96px;border-radius:50%;object-fit:cover;background:#E9E6DF;border:3px solid var(--line);margin-bottom:6px}
+.chefcard.hot-card .photo{border-color:var(--red)}
+.chefcard.or-card .photo{border-color:var(--orange)}
+
+/* 배치도 */
+.mapbox{padding:18px;overflow-x:auto}
+.mapbox svg{display:block;width:100%;min-width:640px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:14px;font-weight:500}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:16px;border-radius:4px;border:2px solid var(--line);display:inline-block}
+.scroll-hint{display:none;font-size:12px;color:var(--muted);margin-top:8px}
+
+/* 먹거리 부스 */
+.food-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-bottom:20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{font:inherit;font-size:14px;font-weight:700;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px}
+.filter span{font-family:var(--f-num);font-size:12px;color:var(--muted);margin-left:4px}
+.filter[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.filter[aria-pressed="true"] span{color:#FFE680}
+.count{font-size:14px;color:var(--muted);font-weight:500}
+.count b{font-family:var(--f-num);color:var(--red);font-size:18px}
+.booths{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;list-style:none;margin:0;padding:0}
+.booth{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0;box-shadow:3px 3px 0 var(--line)}
+.booth .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.booth .no{font-family:var(--f-num);font-size:12px;font-weight:700;color:var(--muted)}
+.booth .cat{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
+.cat.kal{background:#E8321F}.cat.garak{background:#FF7A1A}.cat.korean{background:#B98154}.cat.china{background:#D9542F}.cat.world{background:#E08A3C}
+.booth h4{font-size:20px;line-height:1.25}
+.booth .main{font-weight:700;font-size:15px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.booth .main em{font-style:normal;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--bg);color:var(--red);white-space:nowrap}
+.booth .main em.solo{color:var(--muted)}
+.booth .etc{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* 프로그램 카드 */
+.programs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.prog{padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.prog .meta{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);font-weight:700}
+.prog .meta b{color:var(--red);font-family:var(--f-num)}
+.prog h3{font-size:25px}
+.prog.hot-card h3{color:var(--red)}
+.prog p{font-size:14px;color:var(--muted)}
+.prog ul{margin:0;padding:0;list-style:none;font-family:var(--f-num);font-size:12.5px;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
+
+/* 이벤트 */
+.event{padding:28px;display:flex;gap:16px 28px;align-items:center;flex-wrap:wrap}
+.event h3{font-size:clamp(26px,3.6vw,34px);color:var(--orange);flex:1 1 320px;min-width:0}
+.event p{flex:1 1 280px;min-width:0;color:var(--muted)}
+
+/* 교통 */
+.go{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.go article{padding:24px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.go h3{font-size:24px}
+.place dl{margin:0;display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px 12px;font-size:15px}
+.place dt{color:var(--muted);font-weight:700}
+.place dd{margin:0;font-weight:500}
+.bus-no{display:inline-flex;align-items:center;gap:8px}
+.bus-no b{font-family:var(--f-hero);font-weight:400;font-size:22px;color:#fff;border-radius:10px;padding:2px 12px}
+.bus1 .bus-no b{background:var(--red)}
+.bus2 .bus-no b{background:var(--orange)}
+.route{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column}
+.route li{position:relative;padding:0 0 12px 26px;font-size:15px}
+.route li::before{content:"";position:absolute;left:5px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--card);border:3px solid var(--c)}
+.route li::after{content:"";position:absolute;left:10px;top:20px;bottom:-2px;width:3px;background:var(--c)}
+.route li:last-child{padding-bottom:0}
+.route li:last-child::after{display:none}
+.route li:last-child::before{background:var(--c)}
+.route li:last-child{font-weight:700}
+.route small{color:var(--muted);font-size:12px;margin-left:6px}
+.bus1 .route{--c:var(--red)}
+.bus2 .route{--c:var(--orange)}
+.bus-meta{display:flex;flex-wrap:wrap;gap:8px}
+.bus-meta span{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line)}
+.park ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.warn{background:var(--bg);border:2.5px dashed var(--red);border-radius:14px;padding:12px 14px;font-size:14px}
+.warn b{color:var(--red);display:block;font-family:var(--f-display);font-weight:400;font-size:18px;margin-bottom:2px}
+
+footer{border-top:3px solid var(--caramel);font-size:13px;color:var(--muted)}
+footer .wrap{padding-block:24px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:860px){
+  /* 휴대폰·태블릿: 세로 철길 타임라인 */
+  .rail{grid-template-columns:1fr;row-gap:30px;padding-top:4px;padding-left:46px}
+  .rail::before{left:10px;right:auto;top:0;bottom:0;width:22px;height:auto;
+    background:
+      linear-gradient(#B5784A,#B5784A) 4px 0/4px 100% no-repeat,
+      linear-gradient(#B5784A,#B5784A) 14px 0/4px 100% no-repeat,
+      repeating-linear-gradient(180deg,#E3B27E 0 9px,transparent 9px 24px)}
+  .stop::before{top:2px;left:-36px}
+  .sched{grid-template-columns:1fr}
+  .programs,.chefs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stars,.go{grid-template-columns:1fr}
+  .scroll-hint{display:block}
+}
+@media (max-width:560px){
+  .facts{grid-template-columns:1fr}
+  .intro,.programs,.chefs{grid-template-columns:1fr}
+  .slot{grid-template-columns:1fr;gap:4px}
+  .slot time i{display:inline;margin-left:6px}
+  .top nav{gap:2px 12px;font-size:13px}
+  .star .ico{flex-basis:60px;height:60px}
+  .star .ico svg{width:44px;height:44px}
+  .booths{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .booth{padding:12px}
+  .booth h4{font-size:17px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .steam{animation:rise 3s ease-in-out infinite}
+  .steam:nth-of-type(2){animation-delay:1s}
+  .steam:nth-of-type(3){animation-delay:2s}
+  @keyframes rise{0%{transform:translateY(8px);opacity:0}40%{opacity:.8}100%{transform:translateY(-24px);opacity:0}}
+  .badge{animation:wobble 4s ease-in-out infinite}
+  @keyframes wobble{0%,100%{transform:rotate(12deg)}50%{transform:rotate(4deg) scale(1.04)}}
+  .booth{transition:transform .15s}
+  .booth:hover{transform:translateY(-3px)}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <strong>누들대전 2026</strong>
+    <nav aria-label="페이지 내 이동">
+      <a href="#about">축제 소개</a>
+      <a href="#history">면의 역사</a>
+      <a href="#noodles">대전의 면</a>
+      <a href="#programs">프로그램</a>
+      <a href="#timetable">시간표</a>
+      <a href="#food">먹거리 부스</a>
+      <a href="#map">배치도</a>
+      <a href="#transport">교통</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="scene">
+    <svg class="bgart" id="sceneart" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+    <div class="leaves" id="leaves" aria-hidden="true"></div>
+    <div class="poster">
+      <p class="kicker halo">면으로 잇는 세계<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 Q50 2 100 9 T196 6" fill="none" stroke="#FFC22E" stroke-width="5" stroke-linecap="round"/><path d="M12 14 Q60 8 110 13 T190 11" fill="none" stroke="#FF7A1A" stroke-width="3" stroke-linecap="round"/></svg></p>
+      <h1 class="sr-title">
+        <span class="year" aria-label="2026">
+          <svg class="burst l" viewBox="0 0 60 60" aria-hidden="true"><path d="M6 30h18M14 10l12 12M14 50l12-12" stroke="#FF7A1A" stroke-width="7" stroke-linecap="round"/></svg>
+          <span aria-hidden="true">2</span>
+          <svg class="zero" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#4A2C1A"/><path d="M50 50 m-6 0 a6 6 0 1 1 12 0 a14 14 0 1 1 -28 0 a22 22 0 1 1 44 0 a30 30 0 1 1 -60 0" fill="none" stroke="#FFC22E" stroke-width="6" stroke-linecap="round"/><path d="M50 50 m-20 4 a20 20 0 0 0 40 0" fill="none" stroke="#FF7A1A" stroke-width="6" stroke-linecap="round"/><path d="M50 50 m-30 -2 a30 30 0 0 1 60 0" fill="none" stroke="#E8321F" stroke-width="5" stroke-linecap="round"/></svg>
+          <span aria-hidden="true">26</span>
+          <svg class="burst r" viewBox="0 0 60 60" aria-hidden="true"><path d="M6 30h18M14 10l12 12M14 50l12-12" stroke="#FF7A1A" stroke-width="7" stroke-linecap="round"/></svg>
+        </span>
+        <span class="festname" style="display:block"><span class="nd"><span>누</span><span>들</span><span>대</span><span>전</span></span><span class="fe">축제</span></span>
+      </h1>
+      <svg class="swoosh" viewBox="0 0 560 60" aria-hidden="true"><path d="M10 40 C120 10 220 58 330 30 S500 14 550 30" fill="none" stroke="#FFC22E" stroke-width="12" stroke-linecap="round"/><path d="M30 50 C140 24 240 66 350 40 S500 28 540 40" fill="none" stroke="#FF7A1A" stroke-width="7" stroke-linecap="round"/></svg>
+      <p class="dates">11.13<small>(금)</small> – 11.15<small>(일)</small></p>
+      <p class="hours">12:00 – 21:00</p>
+      <p class="firstday halo"><b>13일(금)</b> 첫날은 16:00부터 시작</p>
+      <p class="venue halo">서대전시민광장</p>
+    </div>
+    <div class="bowl-l"><img src="noodle-bowl.png" alt="젓가락으로 면을 들어 올린 빨간 국수 그릇과 11.13 개막 배지" width="634" height="640"></div>
+    <div class="bowl-r" aria-hidden="true"><svg viewBox="0 0 220 190">
+      <path class="steam2" d="M80 50 q-10 -14 0 -28 q10 -14 0 -28" fill="none" stroke="#C08A5B" stroke-width="5" stroke-linecap="round"/>
+      <path class="steam2" style="animation-delay:1.2s" d="M120 50 q-10 -14 0 -28 q10 -14 0 -28" fill="none" stroke="#C08A5B" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="110" cy="84" rx="100" ry="24" fill="#FFF1B8" stroke="#C08A5B" stroke-width="4"/>
+      <path d="M30 84 q14 -12 28 0 t28 0 t28 0 t28 0 t28 0" fill="none" stroke="#FFC22E" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="140" cy="78" r="12" fill="#fff" stroke="#C08A5B" stroke-width="3"/><circle cx="140" cy="78" r="6" fill="#FFC22E"/>
+      <path d="M70 72 l18 6 -14 8z" fill="#5FA13A" opacity=".0"/>
+      <path d="M12 86 H208 Q200 170 110 176 Q20 170 12 86z" fill="#FF7A1A" stroke="#C08A5B" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30 120 H190" stroke="#FFF1B8" stroke-width="5" stroke-dasharray="14 10" stroke-linecap="round"/>
+      <rect x="78" y="172" width="64" height="12" rx="4" fill="#E3B27E" stroke="#C08A5B" stroke-width="3"/>
+    </svg></div>
+  </div>
+  <div class="below">
+    <div class="wrap">
+      <p class="lede">쫄깃한 <b>칼국수</b> 한 그릇, 기차 시간 맞춰 후루룩 넘기던 <b>가락국수</b> 한 그릇. 국수 한 그릇에 철도 도시 대전의 이야기가 담겨 있습니다. 올해 주제는 <b>&lt;면으로 잇는 세계&gt;</b>, 먹거리 부스 30곳과 함께 사흘 동안 면 하나로 이어지는 축제에 초대합니다.</p>
+      <div class="cta">
+        <a class="btn primary" href="#timetable">시간표 보기</a>
+        <a class="btn" href="#food">먹거리 부스 30곳</a>
+        <a class="btn" href="#transport">오시는 길</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--red)"></div>
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">About</span>
+      <h2>누들대전축제는 어떤 축제인가요?</h2>
+      <p>대전 곳곳의 면 맛집과 면 요리 문화를 한자리에 모은 미식 축제입니다. 맛있는 한 그릇을 찾아 전국을 누비는 면 마니아라면 놓칠 수 없어요.</p>
+    </div>
+    <div class="intro">
+      <article class="card">
+        <span class="tag">TASTE</span>
+        <h3>365일 다녀도 부족한 맛집</h3>
+        <p>반백 년, 2~3대째 대를 잇는 노포부터 추억의 대전역 가락국수, 젊은 입맛에 맞춘 트렌디한 면 요리까지. 대전에는 이름만 대면 아는 면 맛집이 셀 수 없이 많습니다.</p>
+      </article>
+      <article class="card">
+        <span class="tag">JOY</span>
+        <h3>먹고, 보고, 만들고, 찍고</h3>
+        <p>먹거리 부스 30곳을 돌며 맛보고, 스타 셰프의 쿠킹쇼와 누들마스터 경연을 보고, 수제 젓가락·누들컵 만들기 체험까지. 가족·친구 누구와 와도 하루가 꽉 찹니다.</p>
+      </article>
+      <article class="slogan card hot-card">
+        <h3>면으로 잇는 세계</h3>
+        <p>올해로 네 번째를 맞은 누들대전축제는 면 한 가닥으로 전국의 미식 여행자를 잇고, 특별하고 재미있는 여행길을 선물합니다.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--caramel)"></div>
+<section class="block" id="history">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">History</span>
+      <h2>대전은 왜 '면의 도시'가 되었을까</h2>
+      <p>철길이 만나는 도시에 밀가루가 모였고, 밀가루는 국수가 되었습니다.</p>
+    </div>
+    <div class="rail">
+      <div class="stop">
+        <p class="when">일제강점기</p>
+        <h3>철도가 만나는 도시</h3>
+        <p>대전은 경부선과 호남선 철도가 교차하는 지점의 배후 도시로 성장했습니다.</p>
+      </div>
+      <div class="stop">
+        <p class="when">전후 구호 시기</p>
+        <h3>기차로 온 밀가루</h3>
+        <p>미국의 구호물자인 밀가루가 철도로 운송되며 대전에 모였고, 밀가루로 만든 면 요리가 자연스럽게 퍼졌습니다.</p>
+      </div>
+      <div class="stop">
+        <p class="when">1971. 03</p>
+        <h3>밀가루 포대 실은 우마차</h3>
+        <p>밀가루 포대를 가득 실은 우마차가 대전 도심을 지나던 풍경이 대전일보 사진으로 남아 있습니다.</p>
+      </div>
+      <div class="stop">
+        <p class="when">오늘</p>
+        <h3>대를 잇는 한 그릇</h3>
+        <p>대전역 가락국수의 추억, 2~3대를 잇는 칼국수 노포, 새로운 스타일의 면집이 함께 대전의 맛을 만들고 있습니다.</p>
+      </div>
+    </div>
+    <p class="credit">역사 자료 출처: 누들대전축제 공식 홈페이지, 사진 출처 대전일보</p>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--orange)"></div>
+<section class="block" id="noodles">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Daejeon Noodles</span>
+      <h2>대전에 왔다면, 이 두 그릇부터</h2>
+      <p>대전을 대표하는 면 요리는 단연 칼국수와 가락국수입니다. 축제에서는 두 대표 메뉴를 중심으로 전국과 세계의 다양한 면 요리를 함께 맛볼 수 있어요.</p>
+    </div>
+    <div class="stars">
+      <article class="star card hot-card">
+        <div class="top-row">
+          <div class="ico"><svg viewBox="0 0 56 56" aria-hidden="true"><path d="M6 26h44q-2 20-22 22Q8 46 6 26z" fill="#E8321F" stroke="#C08A5B" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 26q4-6 8 0t8 0 8 0 8 0" fill="none" stroke="#FFF0A0" stroke-width="3" stroke-linecap="round"/><path d="M18 18q-3-4 0-8M28 18q-3-4 0-8M38 18q-3-4 0-8" fill="none" stroke="#C08A5B" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+          <div><p class="kicker">대전 대표 면 ①</p><h3>칼국수</h3></div>
+        </div>
+        <p>반죽을 밀어 칼로 숭덩숭덩 썰어낸 넓적한 면발에 진한 국물을 부어 내는 한 그릇. 대전에는 대를 이어 칼국수를 끓여온 노포가 골목마다 있을 만큼 사랑받는 메뉴입니다. 국물 맛도 가게마다 달라서 골라 먹는 재미가 있어요.</p>
+        <ul><li>사골 국물</li><li>멸치 국물</li><li>얼큰한 빨간 국물</li><li>들깨·바지락</li></ul>
+      </article>
+      <article class="star card or-card">
+        <div class="top-row">
+          <div class="ico"><svg viewBox="0 0 56 56" aria-hidden="true"><rect x="4" y="38" width="48" height="6" rx="3" fill="#E3B27E"/><path d="M10 22h36q-1 16-18 16T10 22z" fill="#FF7A1A" stroke="#C08A5B" stroke-width="2.5" stroke-linejoin="round"/><path d="M15 22q3-5 6 0t6 0 6 0 6 0" fill="none" stroke="#FFF0A0" stroke-width="3" stroke-linecap="round"/><circle cx="38" cy="16" r="3" fill="#C08A5B"/><path d="M8 48h40" stroke="#C08A5B" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+          <div><p class="kicker">대전 대표 면 ②</p><h3>가락국수</h3></div>
+        </div>
+        <p>대전역 플랫폼에서 기차가 잠시 멈춘 사이 후루룩 먹고 다시 올라타던 추억의 그 맛. 통통한 면발에 따끈한 멸치 국물, 유부와 쑥갓을 올린 소박한 한 그릇입니다. 축제의 '추억의 누들여행'에서 그 시절 역전 분위기를 다시 만나보세요.</p>
+        <ul><li>대전역의 추억</li><li>멸치 국물</li><li>유부·쑥갓·김가루</li></ul>
+      </article>
+    </div>
+    <div class="more card">
+      <h3>그 밖에도 면, 면, 면!</h3>
+      <p>젊은 입맛에 맞춘 트렌디한 면 요리부터 세계의 누들까지, 면이라면 무엇이든 만날 수 있어요.</p>
+      <div class="chips">
+        <span>냉면</span><span>비빔국수</span><span>쫄면</span><span>짜장면</span><span>짬뽕</span><span>잔치국수</span><span>우동</span><span>라멘</span><span>쌀국수</span><span>파스타</span><span>라면</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--red)"></div>
+<section class="block" id="programs">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Programs</span>
+      <h2>여섯 가지 프로그램</h2>
+    </div>
+    <div class="programs">
+      <article class="prog card hot-card">
+        <div class="meta"><span>메인무대</span><b>11.15 일</b></div>
+        <h3>누들마스터경연대회</h3>
+        <p>축제의 하이라이트. 최고의 면 요리 실력자를 가리는 경연입니다.</p>
+        <ul><li>일 15:00–18:00</li></ul>
+      </article>
+      <article class="prog card or-card">
+        <div class="meta"><span>메인무대</span><b>금·토 저녁</b></div>
+        <h3>쿠킹쇼</h3>
+        <p>하루 한 명, 스타 셰프가 무대에서 선보이는 면 요리 쇼.</p>
+        <ul><li>금 19:00 홍석천</li><li>토 18:00 레이먼킴</li></ul>
+      </article>
+      <article class="prog card">
+        <div class="meta"><span>메인무대</span><b>토·일</b></div>
+        <h3>누들오감대전</h3>
+        <p>보고, 듣고, 맛보며 면을 오감으로 즐기는 무대 프로그램.</p>
+        <ul><li>토 13:00–14:00</li><li>토 14:00–15:00</li><li>일 13:00–14:00</li></ul>
+      </article>
+      <article class="prog card">
+        <div class="meta"><span>메인무대</span><b>5회 공연</b></div>
+        <h3>청년 예술 버스킹</h3>
+        <p>지역 청년 아티스트들이 축제 분위기를 채우는 라이브 공연.</p>
+        <ul><li>금 17:30–18:30</li><li>토 15:00 · 17:00 · 19:00</li><li>일 14:00–15:00</li></ul>
+      </article>
+      <article class="prog card">
+        <div class="meta"><span>물빛광장</span><b>3일 내내</b></div>
+        <h3>추억의 누들여행</h3>
+        <p>옛 대전역 가락국수를 회상하며 추억을 함께 나누는 테마 공간.</p>
+      </article>
+      <article class="prog card">
+        <div class="meta"><span>물빛광장</span><b>3일 내내</b></div>
+        <h3>꿀잼 누들체험</h3>
+        <p>누들네컷, 누들컵·수제 젓가락 만들기 등 아이도 어른도 즐기는 체험 10종.</p>
+      </article>
+    </div>
+    <article class="event card or-card" style="margin-top:28px">
+      <div style="flex-basis:100%"><span class="eyebrow">Event · 누들주제관</span></div>
+      <h3>꿈돌이라면 100만 개 돌파 시민감사 이벤트</h3>
+      <p>누들 로드를 누비고, 먹고, 찍고! 축제 기간 3일 내내 누들주제관에서 참여할 수 있습니다.</p>
+    </article>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--orange)"></div>
+<section class="block" id="timetable">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Timetable</span>
+      <h2>언제 가면 무엇을 볼 수 있나요?</h2>
+      <p>날짜를 고르면 메인무대 순서와 하루 종일 즐길 수 있는 체험이 한눈에 보여요. 금요일은 오후 4시, 토·일요일은 낮 12시에 문을 열고, 매일 밤 9시에 마감합니다.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="날짜 선택">
+      <button class="tab" role="tab" id="tab-fri" aria-selected="true" data-day="fri"><b>11.13 금</b><small>16:00–21:00 · 개막</small></button>
+      <button class="tab" role="tab" id="tab-sat" aria-selected="false" data-day="sat"><b>11.14 토</b><small>12:00–21:00 · 공연 최다</small></button>
+      <button class="tab" role="tab" id="tab-sun" aria-selected="false" data-day="sun"><b>11.15 일</b><small>12:00–21:00 · 경연 결선</small></button>
+    </div>
+    <div class="sched">
+      <div class="stage card" role="tabpanel" aria-labelledby="tab-fri" id="panel">
+        <div class="stage-h"><h3>메인무대</h3><span id="stage-count"></span></div>
+        <div class="bar open" id="open"></div>
+        <ol class="slots" id="slots"></ol>
+        <div class="bar close"><span class="num">21:00</span> 행사 마감 · 먹거리 부스 운영 종료</div>
+      </div>
+      <aside class="side">
+        <div class="side-h" style="padding:0 4px"><h3>운영 시간 내내</h3><span id="side-hours">16:00–21:00</span></div>
+        <div class="allday"><p class="where">먹거리존 A–E</p><h4>누들 먹거리 부스 30곳</h4><p>칼국수·가락국수부터 중식, 세계의 면까지. <a href="#food">부스 목록 보기</a></p></div>
+        <div class="allday"><p class="where">물빛광장</p><h4>추억의 누들여행</h4><p>역전에서 떠나는 추억의 누들여행. 옛 대전역 가락국수를 떠올리며 추억을 나누는 공간입니다.</p></div>
+        <div class="allday"><p class="where">물빛광장</p><h4>꿀잼 누들체험</h4><p>페이스 페인팅, 네일아트, 누들네컷, 나만의 누들컵·머그컵, 수제 젓가락, 생크림 데코, 슈링클스, 슬라임, 우드아트</p></div>
+        <div class="allday"><p class="where">누들주제관</p><h4>모두를 잇는 이벤트</h4><p>누들 로드를 누비고, 먹고, 찍고! 꿈돌이라면 100만 개 돌파 시민감사 이벤트</p></div>
+      </aside>
+    </div>
+
+    <div class="chefs">
+      <article class="chefcard card or-card">
+        <img class="photo" src="chef-raymon.jpg" alt="홍석천 셰프 프로필 사진" width="240" height="240" loading="lazy">
+        <p class="day">11.13 금 · 19:00</p>
+        <h3>홍석천 셰프</h3>
+        <p>축제 첫날 밤, 메인무대에서 면 요리 쿠킹쇼로 누들대전의 문을 엽니다.</p>
+      </article>
+      <article class="chefcard card hot-card">
+        <img class="photo" src="chef-hong.jpg" alt="레이먼킴 셰프 프로필 사진" width="240" height="240" loading="lazy">
+        <p class="day">11.14 토 · 18:00</p>
+        <h3>레이먼킴 셰프</h3>
+        <p>가장 붐비는 토요일 저녁, 눈앞에서 완성되는 면 요리 쿠킹쇼를 선보입니다.</p>
+      </article>
+    </div>
+    <p class="note">프로그램 시간과 출연진은 현장 사정에 따라 바뀔 수 있습니다.</p>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--caramel)"></div>
+<section class="block" id="food">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Food Booths</span>
+      <h2>면 먹거리 부스 30곳</h2>
+      <p>대표 메뉴 한 그릇에, 곁들일 메뉴까지. 종류별로 골라 보고 오늘 먹을 면을 미리 정해 두세요. 부스 번호는 배치도의 구역 번호와 같아요.</p>
+    </div>
+    <div class="food-top">
+      <div class="filters" id="filters" role="group" aria-label="면 종류로 거르기"></div>
+      <p class="count" id="count"></p>
+    </div>
+    <ul class="booths" id="booths"></ul>
+    <p class="note">실습용 가상 부스 목록입니다.</p>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--red)"></div>
+<section class="block" id="map">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Site Map</span>
+      <h2>행사장 배치도</h2>
+      <p>정문으로 들어오면 가운데에 취식 테이블이 있고, 메인무대를 중심으로 먹거리존 A~E가 둘러싸고 있어요. 체험은 물빛광장, 이벤트는 누들주제관에서 진행됩니다.</p>
+    </div>
+    <div class="mapbox card">
+      <svg id="sitemap" viewBox="0 0 800 540" role="img" aria-label="행사장 배치도: 위쪽 가운데 메인무대, 왼쪽 먹거리존 A 칼국수, 가운데 먹거리존 B·C·D, 오른쪽 먹거리존 E 세계의 면, 왼쪽 아래 물빛광장, 오른쪽 아래 누들주제관, 아래 가운데 정문"></svg>
+    </div>
+    <p class="scroll-hint">배치도는 옆으로 밀어서 볼 수 있어요.</p>
+    <div class="legend">
+      <span><i style="background:#E8321F"></i>A 칼국수 (01–08)</span>
+      <span><i style="background:#FF7A1A"></i>B 가락국수·우동 (09–13)</span>
+      <span><i style="background:#E3B27E"></i>C 국수·냉면·라면 (14–20)</span>
+      <span><i style="background:#F2836B"></i>D 중식 면 (21–24)</span>
+      <span><i style="background:#FFAE6B"></i>E 세계의 면 (25–30)</span>
+    </div>
+    <p class="note">실습용 가상 배치도입니다.</p>
+  </div>
+</section>
+
+<div class="wave" aria-hidden="true" style="--c:var(--orange)"></div>
+<section class="block" id="transport">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Getting Here</span>
+      <h2>오시는 길</h2>
+      <p>행사장은 서대전네거리 바로 옆 서대전시민광장이에요. 도시철도 1호선 서대전네거리역에서 가깝고, 축제 기간에만 운행하는 누들버스를 타면 광장 앞에서 바로 내릴 수 있어요.</p>
+    </div>
+    <div class="go">
+      <article class="place card">
+        <h3>행사장 정보</h3>
+        <dl>
+          <dt>장소</dt><dd>서대전시민광장<br>대전 중구 문화동 1-40</dd>
+          <dt>지하철</dt><dd>도시철도 1호선 서대전네거리역 하차</dd>
+          <dt>기간</dt><dd>2026.11.13(금) – 11.15(일)</dd>
+          <dt>운영</dt><dd>금 16:00–21:00<br>토·일 12:00–21:00</dd>
+          <dt>문의</dt><dd>042-251-3801 (대전일보사)</dd>
+        </dl>
+        <a class="btn" href="https://naver.me/5S9X5nJc" target="_blank" rel="noopener" style="align-self:flex-start">네이버 지도에서 보기</a>
+      </article>
+      <article class="park card hot-card">
+        <h3>주차 안내</h3>
+        <ul>
+          <li>광장 안에는 주차장이 없어요</li>
+          <li>주변 공영주차장·임시주차장 이용 (도보 5–10분)</li>
+          <li>장애인·임산부 전용 구역은 정문 옆에 있어요</li>
+        </ul>
+        <div class="warn"><b>당일 주차 자리가 없을 수 있어요</b>축제 기간, 특히 토·일 낮 12시 이후에는 주차장이 모두 찰 수 있습니다. 도착해도 주차가 어려울 수 있으니 가능하면 누들버스나 대중교통을 이용해 주세요.</div>
+      </article>
+      <article class="bus1 card hot-card">
+        <p class="bus-no"><b>누들 1</b><span style="font-weight:700">대전역 출발</span></p>
+        <ol class="route">
+          <li>대전역 동광장 <small>출발</small></li>
+          <li>중앙로역</li>
+          <li>중구청역</li>
+          <li>서대전시민광장 정류장 <small>도착 · 약 25분</small></li>
+        </ol>
+        <div class="bus-meta"><span>15분 간격</span><span>KTX·가락국수 여행자 추천</span></div>
+      </article>
+      <article class="bus2 card or-card">
+        <p class="bus-no"><b>누들 2</b><span style="font-weight:700">유성온천역 출발</span></p>
+        <ol class="route">
+          <li>유성온천역 <small>출발</small></li>
+          <li>대전시청</li>
+          <li>용문역</li>
+          <li>서대전시민광장 정류장 <small>도착 · 약 35분</small></li>
+        </ol>
+        <div class="bus-meta"><span>20분 간격</span><span>유성 숙박 여행자 추천</span></div>
+      </article>
+    </div>
+    <p class="note">누들버스는 축제 운영 시간 30분 전부터 마감 30분 후까지 운행합니다 (금 15:30–21:30, 토·일 11:30–21:30). 실습용 가상 노선입니다.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>2026 누들대전축제 · 주최 대전광역시, 대전일보사</span>
+    <span>실습용 홍보 페이지 · 참고 noodle-dj.com</span>
+  </div>
+</footer>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+function mk(svg,t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e}
+
+// 히어로: 젓가락으로 들어 올린 칼국수 그릇
+(function(){
+  const svg=document.getElementById('bowl');if(!svg)return;const el=(t,a)=>mk(svg,t,a);
+  const OUT='#C08A5B';
+  el('circle',{cx:200,cy:230,r:170,fill:'#FFF0A0'});
+  for(let i=0;i<3;i++){const x=150+i*50;el('path',{class:'steam',d:`M${x} 118 q-12 -18 0 -36 q12 -18 0 -36`,fill:'none',stroke:OUT,'stroke-width':6,'stroke-linecap':'round'})}
+  const colors=['#FFC22E','#F2A516','#FFD45C','#F2A516','#FFC22E','#FFD45C','#F2A516'];
+  for(let n=0;n<7;n++){
+    let d='',x0=162+n*12;
+    for(let y=148;y<=252;y+=4){const x=x0+Math.sin((y+n*22)/9)*6;d+=(y===148?'M':'L')+x.toFixed(1)+' '+y}
+    el('path',{d,fill:'none',stroke:OUT,'stroke-width':10,'stroke-linecap':'round'});
+    el('path',{d,fill:'none',stroke:colors[n],'stroke-width':6,'stroke-linecap':'round'});
+  }
+  [[146,146,332,56],[156,160,340,82]].forEach(([a,b,c,d])=>{
+    el('line',{x1:a,y1:b,x2:c,y2:d,stroke:OUT,'stroke-width':13,'stroke-linecap':'round'});
+    el('line',{x1:a,y1:b,x2:c,y2:d,stroke:'#E3B27E','stroke-width':8,'stroke-linecap':'round'});
+  });
+  el('path',{d:'M60 236 H340 Q330 346 200 353 Q70 346 60 236 Z',fill:'#E8321F',stroke:OUT,'stroke-width':4,'stroke-linejoin':'round'});
+  el('rect',{x:50,y:222,width:300,height:20,rx:10,fill:'#FF7A1A',stroke:OUT,'stroke-width':4});
+  for(let i=0;i<7;i++){el('circle',{cx:98+i*34,cy:285,r:7,fill:'#FFDB4D',stroke:OUT,'stroke-width':2.5})}
+  el('rect',{x:156,y:350,width:88,height:16,rx:5,fill:'#E3B27E',stroke:OUT,'stroke-width':4});
+})();
+
+// 히어로 장면: 노란 하늘 + 구름 + 달 + 은행나무 + 도시 실루엣 + 단풍나무 + 천막 + 전구줄 + 나무 테이블
+(function(){
+  const s=document.getElementById('sceneart');if(!s)return;
+  const g=(t,a)=>mk(s,t,a);
+  const OUT='#C08A5B';
+  // 달
+  g('path',{d:'M250 170 a55 55 0 1 0 60 70 a44 44 0 1 1 -60 -70z',fill:'#FFC870'});
+  // 구름
+  const cloud=(x,y,k)=>{[[0,0,60],[50,-18,48],[95,0,52],[45,12,55]].forEach(([dx,dy,r])=>g('circle',{cx:x+dx*k,cy:y+dy*k,r:r*k,fill:'#FFFCEB'}))};
+  cloud(80,330,.9);cloud(1250,150,.8);cloud(1380,420,.7);cloud(560,120,.55);
+  // 은행나무 (오른쪽 위)
+  g('path',{d:'M1600 240 C1500 220 1440 170 1380 120 M1500 225 C1470 260 1430 270 1400 268',stroke:'#B5784A','stroke-width':16,fill:'none','stroke-linecap':'round'});
+  const ginkgo=(x,y,r,c)=>{const e=g('path',{d:'M0 0 L-16 -26 Q-8 -34 0 -30 Q8 -34 16 -26 Z',fill:c,stroke:'#E8A01E','stroke-width':1.5,transform:`translate(${x} ${y}) rotate(${r}) scale(1.05)`})};
+  const gc=['#FFC22E','#FFB21A','#FF9E1F','#FFD45C'];
+  let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
+  for(let i=0;i<230;i++){const a=rnd()*Math.PI,rad=60+rnd()*230;const x=1600-Math.cos(a/2)*rad*1.6,y=40+Math.sin(a)*rad*.55;ginkgo(x,y,rnd()*360,gc[i%4])}
+  // 도시 실루엣 (밝은 갈색)
+  const bld=[[300,560,90,260,'#D9A574'],[390,600,70,220,'#C98F5E'],[600,640,120,180,'#D9A574'],[1060,620,90,200,'#C98F5E'],[1150,570,110,250,'#D9A574'],[1260,610,80,210,'#C98F5E'],[1340,650,120,170,'#D9A574'],[470,660,90,160,'#E3B27E'],[960,680,90,140,'#E3B27E']];
+  bld.forEach(([x,y,w,h,c])=>{g('rect',{x,y,width:w,height:h,fill:c});for(let yy=y+22;yy<y+h-30;yy+=40)for(let xx=x+16;xx<x+w-16;xx+=30)g('rect',{x:xx,y:yy,width:14,height:18,rx:2,fill:'#FFF1B8'})});
+  // 단풍나무
+  const tree=(x,y,r,c)=>{g('rect',{x:x-6,y:y,width:12,height:r*1.3,fill:'#B5784A'});g('circle',{cx:x,cy:y,r,fill:c});g('circle',{cx:x-r*.55,cy:y+r*.35,r:r*.7,fill:c});g('circle',{cx:x+r*.55,cy:y+r*.3,r:r*.72,fill:c})};
+  [[250,690,70,'#FF7A1A'],[380,720,55,'#FFB21A'],[560,740,60,'#E8321F'],[700,760,46,'#FFC22E'],[900,760,50,'#FF9E1F'],[1050,730,62,'#FF7A1A'],[1220,720,56,'#FFC22E'],[1360,700,72,'#E8321F'],[1480,740,50,'#FFB21A']].forEach(t=>tree(...t));
+  // 천막 (양쪽)
+  const awning=(x,dir)=>{
+    const cols=['#E8321F','#FFF8D9','#FF7A1A','#FFF8D9','#FFC22E','#FFF8D9'];
+    g('rect',{x:x+(dir>0?0:-8),y:560,width:8,height:260,fill:'#B5784A'});
+    for(let i=0;i<6;i++){const x0=x+dir*(i*42),x1=x0+dir*42;g('path',{d:`M${x0} 600 L${x1} ${600+i*0+0} L${x1} 690 Q${(x0+x1)/2} 712 ${x0} 690Z`,fill:cols[i],stroke:OUT,'stroke-width':2.5})}
+  };
+  awning(30,1);awning(1570,-1);
+  // 전구줄
+  const lights=(x0,x1,y,sag)=>{let d=`M${x0} ${y} Q${(x0+x1)/2} ${y+sag} ${x1} ${y}`;g('path',{d,fill:'none',stroke:'#B5784A','stroke-width':3});
+    for(let t=.08;t<1;t+=.12){const x=(1-t)*(1-t)*x0+2*(1-t)*t*((x0+x1)/2)+t*t*x1,yy=(1-t)*(1-t)*y+2*(1-t)*t*(y+sag)+t*t*y;g('circle',{cx:x,cy:yy+10,r:9,fill:'#FFF6C0',stroke:'#FFC22E','stroke-width':3})}};
+  lights(34,300,560,60);lights(1300,1566,560,60);
+  // 덤불
+  [[0,860,110,'#FF7A1A'],[90,880,80,'#E8321F'],[1600,860,110,'#FF9E1F'],[1520,885,80,'#E8321F']].forEach(([x,y,r,c])=>g('circle',{cx:x,cy:y,r,fill:c}));
+  // 나무 테이블
+  g('rect',{x:0,y:812,width:1600,height:88,fill:'#E3B27E'});
+  g('rect',{x:0,y:812,width:1600,height:10,fill:'#C08A5B'});
+  for(let y=845;y<900;y+=28)g('line',{x1:0,y1:y,x2:1600,y2:y,stroke:'#C99263','stroke-width':3});
+  for(let x=80;x<1600;x+=260)g('line',{x1:x,y1:822,x2:x,y2:900,stroke:'#C99263','stroke-width':3});
+})();
+// 떨어지는 은행잎·단풍잎
+(function(){
+  const box=document.getElementById('leaves');if(!box)return;
+  const shapes=[
+    ['M0 0 L-16 -26 Q-8 -34 0 -30 Q8 -34 16 -26 Z','#FFC22E','0 -36 32 40'],
+    ['M0 0 L-16 -26 Q-8 -34 0 -30 Q8 -34 16 -26 Z','#FF9E1F','0 -36 32 40'],
+    ['M0 -30 L6 -16 L18 -20 L12 -8 L22 -2 L8 0 L10 12 L0 4 L-10 12 L-8 0 L-22 -2 L-12 -8 L-18 -20 L-6 -16 Z','#FF7A1A','-24 -32 48 46'],
+    ['M0 -30 L6 -16 L18 -20 L12 -8 L22 -2 L8 0 L10 12 L0 4 L-10 12 L-8 0 L-22 -2 L-12 -8 L-18 -20 L-6 -16 Z','#E8321F','-24 -32 48 46'],
+  ];
+  const pos=[[6,0,13,18],[17,3,15,52],[29,6,11,30],[41,1,16,70],[58,8,12,22],[70,2,14,60],[81,5,12,38],[92,9,15,14],[12,11,13,80],[63,13,16,84]];
+  pos.forEach(([left,delay,dur,rest],i)=>{
+    const [d,c,vb]=shapes[i%4];
+    const v=vb.split(' ').map(Number);
+    const el=document.createElementNS(NS,'svg');el.setAttribute('viewBox',vb.replace(/^0 /,'-16 '));el.setAttribute('class','leaf');
+    el.style.left=left+'%';el.style.setProperty('--delay',(-delay)+'s');el.style.setProperty('--d',dur+'s');el.style.setProperty('--rest',rest+'%');
+    const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill',c);el.appendChild(p);box.appendChild(el);
+  });
+})();
+
+// 행사장 배치도 (가상)
+(function(){
+  const s=document.getElementById('sitemap');
+  const INK='#4A2C1A',OUT='#C08A5B',F="'IBM Plex Sans KR','Apple SD Gothic Neo',sans-serif",D="'Jua','Apple SD Gothic Neo',sans-serif";
+  const rect=(x,y,w,h,fill,rx=10,extra={})=>mk(s,'rect',{x,y,width:w,height:h,rx,fill,stroke:OUT,'stroke-width':2.5,...extra});
+  const text=(x,y,t,size=14,fill=INK,font=F,weight=700,anchor='middle')=>mk(s,'text',{x,y,'font-size':size,'font-family':font,'font-weight':weight,fill,'text-anchor':anchor},t);
+  // 행사장 경계
+  rect(8,8,784,500,'#FFF8D9',26,{'stroke-dasharray':'10 6'});
+  // 메인무대 + 관람석
+  rect(290,24,220,64,'#E8321F',14);
+  text(400,64,'메인무대',22,'#fff',D,400);
+  rect(290,96,220,70,'#FFF1B8',12,{'stroke-dasharray':'6 5'});
+  text(400,136,'관람석',15,INK);
+  // 부스 구역 그리기
+  const booth=(x,y,w,h,no,fill)=>{rect(x,y,w,h,fill,6);text(x+w/2,y+h/2+5,String(no).padStart(2,'0'),13,'#fff','JetBrains Mono,monospace')};
+  const label=(x,y,t,anchor='middle')=>text(x,y,t,14,INK,F,700,anchor);
+  // A 칼국수 01–08 (왼쪽 세로 2열)
+  label(92,40,'A 칼국수');
+  for(let i=0;i<8;i++){const col=i%2,row=Math.floor(i/2);booth(30+col*64,52+row*58,56,48,i+1,'#E8321F')}
+  // E 세계의 면 25–30 (오른쪽 세로 2열)
+  label(708,40,'E 세계의 면');
+  for(let i=0;i<6;i++){const col=i%2,row=Math.floor(i/2);booth(646+col*64,52+row*58,56,48,25+i,'#FFAE6B')}
+  // B 가락국수·우동 09–13
+  label(176,198,'B 가락국수·우동','start');
+  for(let i=0;i<5;i++)booth(176+i*50,206,44,40,9+i,'#FF7A1A');
+  // D 중식 21–24
+  label(440,198,'D 중식 면','start');
+  for(let i=0;i<4;i++)booth(440+i*50,206,44,40,21+i,'#F2836B');
+  // C 국수·냉면·라면 14–20
+  label(176,274,'C 국수·냉면·라면','start');
+  for(let i=0;i<7;i++)booth(176+i*50,282,44,40,14+i,'#E3B27E');
+  // 취식 테이블
+  rect(176,340,448,62,'#FFF1B8',14);
+  text(400,368,'취식 테이블',16,INK);
+  text(400,388,'먹고 쉬는 공간 · 약 300석',12,'#7D5434',F,500);
+  for(let i=0;i<8;i++)mk(s,'circle',{cx:200+i*57,cy:352,r:0});
+  // 물빛광장
+  mk(s,'ellipse',{cx:120,cy:430,rx:100,ry:58,fill:'#FFE47A',stroke:OUT,'stroke-width':2.5});
+  text(120,424,'물빛광장',17,INK,D,400);
+  text(120,446,'체험존 · 추억의 누들여행',12,'#7D5434',F,500);
+  // 누들주제관
+  rect(600,382,180,100,'#FF7A1A',16);
+  text(690,428,'누들주제관',18,'#fff',D,400);
+  text(690,450,'시민감사 이벤트',12,'#fff',F,500);
+  // 편의시설
+  const icon=(x,y,t,c)=>{mk(s,'circle',{cx:x,cy:y,r:15,fill:c,stroke:OUT,'stroke-width':2});text(x,y+5,t,13,'#fff')};
+  icon(556,52,'i','#E8321F');text(556,84,'안내소',11,INK,F,500);
+  icon(250,52,'WC','#C08A5B');text(250,84,'화장실',11,INK,F,500);
+  icon(560,440,'+','#E8321F');text(560,472,'의무실',11,INK,F,500);
+  icon(250,470,'WC','#C08A5B');
+  // 동선
+  mk(s,'path',{d:'M400 500 L400 410',stroke:'#E8321F','stroke-width':4,'stroke-dasharray':'2 8','stroke-linecap':'round',fill:'none'});
+  // 정문
+  rect(330,494,140,34,'#E8321F',17);
+  text(400,516,'정문 · 누들버스 정류장',13,'#fff');
+  // 주차장 입구
+  mk(s,'path',{d:'M792 300 l-26 -12 v24 z',fill:'#C08A5B'});
+  text(760,340,'주차장 →',13,INK,F,700,'end');
+  // 방위
+  text(40,530,'N ↑',12,'#7D5434','JetBrains Mono,monospace',700,'start');
+})();
+
+// 시간표 (2026.11.13–15)
+const DAYS={
+  fri:{label:'11.13 금',open:'16:00',hours:'16:00–21:00',openText:'개막 · 먹거리 부스와 체험존 운영 시작',slots:[
+    ['17:30','18:30','청년 예술 버스킹','지역 청년 아티스트 라이브',''],
+    ['19:00','20:00','쿠킹쇼 · 홍석천 셰프','면 요리 쿠킹쇼로 여는 첫날 밤','chef'],
+  ]},
+  sat:{label:'11.14 토',open:'12:00',hours:'12:00–21:00',openText:'먹거리 부스와 체험존 운영 시작',slots:[
+    ['13:00','14:00','누들오감대전','오감으로 즐기는 면 무대 1부',''],
+    ['14:00','15:00','누들오감대전','오감으로 즐기는 면 무대 2부',''],
+    ['15:00','16:00','청년 예술 버스킹','지역 청년 아티스트 라이브',''],
+    ['17:00','18:00','청년 예술 버스킹','지역 청년 아티스트 라이브',''],
+    ['18:00','19:00','쿠킹쇼 · 레이먼킴 셰프','눈앞에서 완성되는 면 요리 쿠킹쇼','chef'],
+    ['19:00','20:00','청년 예술 버스킹','지역 청년 아티스트 라이브',''],
+  ]},
+  sun:{label:'11.15 일',open:'12:00',hours:'12:00–21:00',openText:'먹거리 부스와 체험존 운영 시작',slots:[
+    ['13:00','14:00','누들오감대전','오감으로 즐기는 면 무대',''],
+    ['14:00','15:00','청년 예술 버스킹','지역 청년 아티스트 라이브',''],
+    ['15:00','18:00','누들마스터경연대회','최고의 면 요리 실력자를 가리는 경연','master'],
+  ]},
+};
+const mins=h=>{const[a,b]=h.split(':').map(Number);return a*60+b};
+function render(day){
+  const d=DAYS[day];
+  document.getElementById('open').innerHTML=`<span class="num">${d.open}</span> ${d.openText}`;
+  document.getElementById('side-hours').textContent=d.hours;
+  document.getElementById('slots').innerHTML=d.slots.map(([s,e,t,desc,kind])=>{
+    const dur=mins(e)-mins(s);
+    const pill=kind==='chef'?'<span class="pill chefp">셰프 출연</span>':kind==='master'?'<span class="pill hot">하이라이트</span>':'';
+    return `<li class="slot ${kind}"><time>${s} – ${e}<i>${dur>=120?dur/60+'시간':dur+'분'}</i></time><div><h4>${t}${pill}</h4><p>${desc}</p></div></li>`;
+  }).join('');
+  document.getElementById('stage-count').textContent=`${d.label} · 무대 ${d.slots.length}개`;
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.day===day));
+  document.getElementById('panel').setAttribute('aria-labelledby','tab-'+day);
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>render(b.dataset.day)));
+render('fri');
+
+// 먹거리 부스 30곳 (가상) — [이름, 종류, 대표 메뉴, [기타 메뉴 0~4개]]
+const CATS={all:'전체',kal:'A 칼국수',garak:'B 가락국수·우동',korean:'C 국수·냉면·라면',china:'D 중식 면',world:'E 세계의 면'};
+const ZONE={kal:'A',garak:'B',korean:'C',china:'D',world:'E'};
+const BOOTHS=[
+  ['한밭손칼국수방','kal','사골칼국수',['얼큰칼국수','수육','보리밥','김치전']],
+  ['밀밭골','kal','들깨칼국수',['바지락칼국수','감자전']],
+  ['칼춤','kal','얼큰이칼국수',[]],
+  ['반죽장인','kal','손칼국수',['고기만두','칼제비']],
+  ['바지락연가','kal','바지락칼국수',['해물파전','들깨칼국수','주먹밥']],
+  ['국수공방 하얀밀','kal','멸치칼국수',['비빔칼국수']],
+  ['두루치기 한판','kal','두부두루치기 & 칼국수',['오징어두루치기','계란말이']],
+  ['장칼면옥','kal','장칼국수',['감자옹심이','메밀전병','수수부꾸미']],
+  ['역전가락','garak','추억의 가락국수',['유부초밥','어묵','꼬마김밥']],
+  ['플랫폼 0번','garak','대전역식 가락국수',[]],
+  ['기적소리우동','garak','가락우동',['튀김우동','유부우동','주먹밥','어묵꼬치']],
+  ['우동한사발','garak','냄비우동',['카레우동']],
+  ['사누키공방','garak','붓카케우동',['자루우동','새우튀김']],
+  ['잔칫집 국수','korean','잔치국수',['비빔국수','김밥','삶은달걀']],
+  ['냉면연구소','korean','물냉면',['비빔냉면','회냉면','왕만두']],
+  ['쫄깃쫄면','korean','쫄면',['떡볶이','순대']],
+  ['막국수마을','korean','들기름막국수',[]],
+  ['콩국수정원','korean','콩국수',['열무국수']],
+  ['비빔명가','korean','골뱅이소면',['비빔국수','김치말이국수','녹두전']],
+  ['라면포차 후루룩','korean','얼큰 해장라면',['치즈라면','떡라면','만두라면']],
+  ['홍짜장','china','옛날짜장',['간짜장','탕수육','군만두']],
+  ['불맛짬뽕','china','차돌짬뽕',['백짬뽕','짬뽕밥']],
+  ['도삭면관','china','도삭면',['마라탕면','꿔바로우','우육면','딤섬']],
+  ['란저우라미엔','china','우육면',[]],
+  ['쌀국수정류장','world','소고기쌀국수',['분짜','짜조','반미']],
+  ['팟타이포차','world','팟타이',['똠얌누들']],
+  ['라멘야 미치','world','돈코츠라멘',['미소라멘','교자']],
+  ['파스타트럭','world','알리오올리오',['토마토파스타','크림파스타','감바스','마늘빵']],
+  ['락사하우스','world','커리락사',['나시고렝']],
+  ['야키소바바','world','야키소바',['타코야키','오코노미야키']],
+];
+let foodCat='all';
+function renderFood(){
+  const counts={all:BOOTHS.length};
+  BOOTHS.forEach(b=>counts[b[1]]=(counts[b[1]]||0)+1);
+  document.getElementById('filters').innerHTML=Object.entries(CATS).map(([k,v])=>
+    `<button class="filter" type="button" data-cat="${k}" aria-pressed="${k===foodCat}">${v}<span>${counts[k]}</span></button>`).join('');
+  const list=BOOTHS.map((b,i)=>[i+1,...b]).filter(b=>foodCat==='all'||b[2]===foodCat);
+  document.getElementById('booths').innerHTML=list.map(([no,name,cat,main,etc])=>{
+    const tag=etc.length?`<em>외 ${etc.length}가지</em>`:`<em class="solo">단일 메뉴</em>`;
+    const etcLine=etc.length?`<p class="etc">${etc.join(' · ')}</p>`:`<p class="etc">대표 메뉴 한 가지만 파는 전문 부스</p>`;
+    return `<li class="booth"><div class="row"><span class="no">${ZONE[cat]}구역 · ${String(no).padStart(2,'0')}</span><span class="cat ${cat}">${CATS[cat].slice(2)}</span></div><h4>${name}</h4><p class="main">${main}${tag}</p>${etcLine}</li>`;
+  }).join('');
+  document.getElementById('count').innerHTML=`<b>${list.length}</b>곳 표시 중`;
+  document.querySelectorAll('.filter').forEach(f=>f.addEventListener('click',()=>{foodCat=f.dataset.cat;renderFood()}));
+}
+renderFood();
+</script>
