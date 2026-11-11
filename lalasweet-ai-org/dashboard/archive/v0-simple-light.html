@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>라라스윗 AI 조직 대시보드 (실습용)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F2; --surface:#FFFFFF; --ink:#2B2420; --ink2:#4A403A; --muted:#6E625A; --line:#E8DFD6;
+    --dark:#2B2420; --accent:#C8623F;
+    --sawon-bg:#E3F1EA; --sawon-bd:#8CC2A6; --sawon-ink:#2E6B4E;
+    --daeri-bg:#FFE6DA; --daeri-bd:#E8A58A; --daeri-ink:#A3452A;
+    --gwajang-bg:#EDE7FB; --gwajang-bd:#7A5BC7; --gwajang-ink:#5B3FA8;
+    --s-work:#2F6FB3; --s-wait:#7A6F67; --s-review:#6A4BB8; --s-done:#2E7D50; --s-warn:#B4581E;
+    --bar:#C8623F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.5}
+  .wrap{max-width:1320px;margin:0 auto;padding:32px 24px 64px}
+  header{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+  h1{margin:0;font-size:32px;letter-spacing:-0.02em}
+  .sub{color:var(--muted);font-size:14px;margin-top:4px}
+  .demo{display:inline-flex;align-items:center;gap:8px;background:#FFF3D6;border:1px solid #E5C77A;color:#6B4E0E;font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .card h2{margin:0 0 4px;font-size:18px}
+  .card .hint{margin:0 0 16px;color:var(--muted);font-size:13px}
+  .grid{display:grid;gap:20px}
+  .kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:20px}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 24px}
+  .kpi .label{font-size:13px;color:var(--muted)}
+  .kpi .num{font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-top:4px}
+  .kpi .note{font-size:12px;color:var(--muted)}
+  .main{grid-template-columns:minmax(0,2fr) minmax(0,1fr);margin-bottom:20px}
+  .bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+  /* stepper */
+  .steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:8px}
+  .step{border-radius:12px;padding:12px;border:1px solid var(--line);background:#FAF6F1;min-height:84px}
+  .step .n{font-size:11px;color:var(--muted);font-weight:500}
+  .step .t{font-size:14px;font-weight:700;margin-top:2px}
+  .step .w{font-size:12px;color:var(--muted)}
+  .step.done{background:#EEF6F1;border-color:#B9DCC8}
+  .step.done .n{color:var(--s-done)}
+  .step.now{background:var(--surface);border:2px solid var(--accent)}
+  .step.now .n{color:var(--accent)}
+  .step.gate .t::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--dark);margin-right:6px;vertical-align:middle}
+  .progress{height:8px;background:#EFE7DE;border-radius:999px;margin-top:16px;overflow:hidden}
+  .progress span{display:block;height:100%;background:var(--accent);border-radius:999px}
+  .proj-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px;color:var(--ink2)}
+  /* agents */
+  .agents{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+  .agent{border-radius:14px;padding:14px 16px;border:1.5px solid}
+  .agent.sawon{background:var(--sawon-bg);border-color:var(--sawon-bd)}
+  .agent.daeri{background:var(--daeri-bg);border-color:var(--daeri-bd)}
+  .agent.gwajang{background:var(--gwajang-bg);border-color:var(--gwajang-bd);border-style:dashed}
+  .agent.chief{background:var(--surface);border-color:var(--dark)}
+  .agent .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .agent .rank{font-size:12px;font-weight:700}
+  .sawon .rank{color:var(--sawon-ink)} .daeri .rank{color:var(--daeri-ink)} .gwajang .rank{color:var(--gwajang-ink)} .chief .rank{color:var(--muted)}
+  .agent .name{font-size:16px;font-weight:700;margin-top:2px}
+  .agent .task{font-size:13px;color:var(--ink2);margin-top:6px;min-height:40px}
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;background:rgba(255,255,255,.75);border-radius:999px;padding:2px 10px;white-space:nowrap}
+  .status svg{width:12px;height:12px}
+  .st-work{color:var(--s-work)} .st-wait{color:var(--s-wait)} .st-review{color:var(--s-review)}
+  /* approvals */
+  .appr{display:flex;flex-direction:column;gap:12px}
+  .item{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#FFFCF8}
+  .item .t{font-weight:700;font-size:15px}
+  .item .m{font-size:12px;color:var(--muted);margin-top:2px}
+  .item .ok{font-size:12px;color:var(--s-done);margin-top:6px;display:flex;gap:6px;align-items:center}
+  .btns{display:flex;gap:8px;margin-top:12px}
+  button{font:inherit;cursor:pointer;border-radius:10px;min-height:44px;padding:0 16px;font-size:14px;font-weight:500}
+  .b-yes{background:var(--dark);color:#fff;border:1px solid var(--dark)}
+  .b-no{background:#fff;color:var(--ink);border:1px solid #CFC4B9}
+  button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .resolved{font-size:13px;font-weight:500;margin-top:10px}
+  .empty{font-size:14px;color:var(--muted);padding:16px;border:1px dashed var(--line);border-radius:12px;text-align:center}
+  /* chart */
+  .bars{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+  .bar-row{display:grid;grid-template-columns:116px minmax(0,1fr) 28px;gap:10px;align-items:center;font-size:13px;position:relative}
+  .bar-track{height:20px;position:relative}
+  .bar{height:20px;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+  .bar-row:hover .bar,.bar-row:focus-within .bar{filter:brightness(.9)}
+  .bar-val{text-align:right;color:var(--ink);font-weight:500}
+  .tip{position:absolute;left:126px;top:-34px;background:var(--dark);color:#fff;font-size:12px;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s}
+  .bar-row:hover .tip,.bar-row:focus .tip{opacity:1}
+  details{margin-top:14px;font-size:13px}
+  summary{cursor:pointer;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line)}
+  td.r,th.r{text-align:right}
+  /* log */
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .chip{min-height:36px;padding:0 12px;font-size:13px;border-radius:999px;background:#fff;border:1px solid #CFC4B9;color:var(--ink2)}
+  .chip[aria-pressed="true"]{background:var(--dark);color:#fff;border-color:var(--dark)}
+  .log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:360px;overflow:auto}
+  .log li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;font-size:13px}
+  .log .time{color:var(--muted)}
+  .log .who{font-weight:700}
+  .rej{display:flex;flex-direction:column;gap:12px}
+  .rej .item{background:#FFF8F2;border-color:#F0D6C4}
+  .rej .reason{font-size:13px;color:var(--ink2);margin-top:6px}
+  .rej .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--s-warn)}
+  footer{margin-top:24px;font-size:12px;color:var(--muted)}
+  @media (max-width:1000px){
+    .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .main,.bottom{grid-template-columns:minmax(0,1fr)}
+    .agents{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:560px){
+    .agents{grid-template-columns:minmax(0,1fr)}
+    .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>라라스윗 AI 조직 대시보드</h1>
+      <div class="sub">실습용 · 사장 겸 디렉터 1 · 비서실장 1 · AI 직원 5</div>
+    </div>
+    <span class="demo" role="note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>예시 데이터 · 실제 운영 기록이 아니에요</span>
+  </header>
+
+  <section class="grid kpis" aria-label="핵심 지표">
+    <div class="kpi"><div class="label">진행 중인 작업</div><div class="num" id="k-work">3</div><div class="note">카피라이터, SNS 기획자, 검수관</div></div>
+    <div class="kpi"><div class="label">사장 승인 대기</div><div class="num" id="k-appr">2</div><div class="note">검수 통과 후 대기 중</div></div>
+    <div class="kpi"><div class="label">이번 주 완료</div><div class="num" id="k-done">9</div><div class="note">직원별 내역은 아래 차트</div></div>
+    <div class="kpi"><div class="label">검수 반려</div><div class="num">2</div><div class="note">재작업 진행 중 1건</div></div>
+  </section>
+
+  <section class="grid main">
+    <div class="card">
+      <h2>현재 프로젝트 · 저당 신제품 기획 (예시)</h2>
+      <p class="hint">업무 흐름 6단계 중 현재 위치 · 진한 표시는 사장 승인 단계</p>
+      <div class="steps" id="steps"></div>
+      <div class="progress" role="progressbar" aria-label="프로젝트 진행률" aria-valuemin="0" aria-valuemax="100" id="pbar"><span id="pfill"></span></div>
+      <div class="proj-meta"><span id="ptext"></span><span>시작: 11월 10일</span><span>목표 완료: 11월 14일</span></div>
+
+      <h2 style="margin-top:28px">직원 현황</h2>
+      <div class="agents" id="agents"></div>
+    </div>
+
+    <div class="card">
+      <h2>사장 승인 대기함</h2>
+      <p class="hint">검수관을 통과한 결과물만 올라와요</p>
+      <div class="appr" id="appr"></div>
+    </div>
+  </section>
+
+  <section class="grid bottom">
+    <div class="card">
+      <h2>이번 주 직원별 완료 작업</h2>
+      <p class="hint">단위: 건 · 막대에 마우스를 올리면 내역이 보여요</p>
+      <div class="bars" id="bars"></div>
+      <details><summary>표로 보기</summary>
+        <table><thead><tr><th>직원</th><th class="r">완료</th></tr></thead><tbody id="tbl"></tbody></table>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>검수 반려 내역</h2>
+      <p class="hint">반려는 최대 2회, 이후 사장 보고</p>
+      <div class="rej" id="rej"></div>
+    </div>
+
+    <div class="card">
+      <h2>활동 로그</h2>
+      <p class="hint">오늘 · 직원별로 걸러 볼 수 있어요</p>
+      <div class="filters" id="filters" role="group" aria-label="직원 필터"></div>
+      <ul class="log" id="log"></ul>
+    </div>
+  </section>
+
+  <footer>클로드 실습용 대시보드 · 라라스윗 공식 자료가 아니며, 모든 수치는 예시예요.</footer>
+</div>
+
+<script>
+const ICON = {
+  work:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/></svg>',
+  wait:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  review:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+  check:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>',
+  warn:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17h.01"/></svg>'
+};
+const STATUS = { work:['작업 중','st-work'], wait:['대기','st-wait'], review:['검토 중','st-review'] };
+
+const steps = [
+  {n:'STEP 1',t:'트렌드 조사',w:'리서처'},
+  {n:'STEP 2',t:'콘셉트 제안',w:'기획자'},
+  {n:'STEP 3',t:'콘셉트 승인',w:'사장',gate:true},
+  {n:'STEP 4',t:'카피·콘텐츠 제작',w:'카피라이터, SNS'},
+  {n:'STEP 5',t:'검수',w:'검수관'},
+  {n:'STEP 6',t:'최종 승인',w:'사장',gate:true}
+];
+const CURRENT = 3; // 0-based: STEP 4
+
+const agents = [
+  {name:'비서실장',rank:'메인 에이전트',cls:'chief',st:'work',task:'STEP 4 결과물 취합, 승인 대기함 정리'},
+  {name:'트렌드 리서처',rank:'사원',cls:'sawon',st:'wait',task:'조사 완료 · 다음 지시 대기'},
+  {name:'제품 기획자',rank:'대리',cls:'daeri',st:'wait',task:'콘셉트 B 승인 완료 · 대기'},
+  {name:'카피라이터',rank:'대리',cls:'daeri',st:'work',task:'제품명 후보 재작성 (반려 1회 후 수정 중)'},
+  {name:'SNS 콘텐츠 기획자',rank:'사원',cls:'sawon',st:'work',task:'출시 릴스 3편 시나리오 작성'},
+  {name:'검수관',rank:'과장 · 독립',cls:'gwajang',st:'review',task:'패키지 문구 표시·광고 표현 점검'}
+];
+
+let approvals = [
+  {id:1,t:'상세페이지 카피 초안 v2',who:'카피라이터',when:'오늘 10:42',state:null},
+  {id:2,t:'출시 캠페인 릴스 기획안',who:'SNS 콘텐츠 기획자',when:'오늘 11:15',state:null}
+];
+
+const done = [
+  {name:'트렌드 리서처',v:3,d:'시장 조사, 경쟁 제품 비교, 리뷰 분석'},
+  {name:'제품 기획자',v:2,d:'콘셉트 3안, 콘셉트 B 상세안'},
+  {name:'검수관',v:2,d:'콘셉트 검수, 카피 v2 검수'},
+  {name:'카피라이터',v:1,d:'상세페이지 카피 v2'},
+  {name:'SNS 콘텐츠 기획자',v:1,d:'릴스 기획안'}
+];
+
+const rejections = [
+  {t:'제품명 후보 1차',who:'카피라이터',reason:'"제로 칼로리" 표현의 근거가 확인되지 않음. 표시 기준에 맞는 표현으로 수정 요청.',n:'1/2회',open:true},
+  {t:'릴스 기획안 1차',who:'SNS 콘텐츠 기획자',reason:'다이어트 효과를 암시하는 문구가 브랜드 톤과 공통 규칙에 어긋남.',n:'1/2회',open:false}
+];
+
+const logs = [
+  {time:'11:30',who:'검수관',msg:'패키지 문구 검수 시작'},
+  {time:'11:15',who:'검수관',msg:'릴스 기획안 v2 통과 → 사장 승인 대기함으로'},
+  {time:'10:58',who:'카피라이터',msg:'제품명 후보 반려 확인, 재작성 시작'},
+  {time:'10:50',who:'검수관',msg:'제품명 후보 1차 반려 (표현 근거 부족)'},
+  {time:'10:42',who:'검수관',msg:'상세페이지 카피 v2 통과 → 사장 승인 대기함으로'},
+  {time:'10:05',who:'비서실장',msg:'STEP 4 업무 배분: 카피라이터, SNS 기획자'},
+  {time:'09:40',who:'사장',msg:'콘셉트 B 승인'},
+  {time:'09:12',who:'비서실장',msg:'콘셉트 3안 취합해 사장에게 보고'}
+];
+let filter = '전체';
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function renderSteps(){
+  document.getElementById('steps').innerHTML = steps.map((s,i)=>{
+    const cls = i<CURRENT?'done':(i===CURRENT?'now':'');
+    const tag = i<CURRENT?' · 완료':(i===CURRENT?' · 진행 중':'');
+    return `<div class="step ${cls} ${s.gate?'gate':''}"><div class="n">${s.n}${tag}</div><div class="t">${esc(s.t)}</div><div class="w">${esc(s.w)}</div></div>`;
+  }).join('');
+  const pct = Math.round(CURRENT/steps.length*100);
+  document.getElementById('pfill').style.width = pct+'%';
+  document.getElementById('pbar').setAttribute('aria-valuenow',pct);
+  document.getElementById('ptext').textContent = `진행률 ${pct}% (${CURRENT}/${steps.length}단계 완료)`;
+}
+
+function renderAgents(){
+  document.getElementById('agents').innerHTML = agents.map(a=>{
+    const [label,cls] = STATUS[a.st];
+    return `<div class="agent ${a.cls}"><div class="top"><span class="rank">${esc(a.rank)}</span><span class="status ${cls}">${ICON[a.st]}${label}</span></div><div class="name">${esc(a.name)}</div><div class="task">${esc(a.task)}</div></div>`;
+  }).join('');
+}
+
+function renderAppr(){
+  const el = document.getElementById('appr');
+  el.innerHTML = approvals.map(a=>{
+    const res = a.state==='yes' ? `<div class="resolved" style="color:var(--s-done)">${ICON.check} 승인 완료 · 다음 단계로 넘어가요</div>`
+             : a.state==='no' ? `<div class="resolved" style="color:var(--s-warn)">${ICON.warn} 반려 · 비서실장이 담당자에게 되돌려요</div>`
+             : `<div class="btns"><button class="b-yes" data-id="${a.id}" data-act="yes">승인</button><button class="b-no" data-id="${a.id}" data-act="no">반려</button></div>`;
+    return `<div class="item"><div class="t">${esc(a.t)}</div><div class="m">${esc(a.who)} · ${esc(a.when)}</div><div class="ok">${ICON.check} 검수관 통과</div>${res}</div>`;
+  }).join('');
+  const pending = approvals.filter(a=>!a.state).length;
+  document.getElementById('k-appr').textContent = pending;
+}
+document.getElementById('appr').addEventListener('click',e=>{
+  const b = e.target.closest('button[data-id]'); if(!b) return;
+  const a = approvals.find(x=>x.id==b.dataset.id); a.state = b.dataset.act;
+  const now = new Date(); const hh = String(now.getHours()).padStart(2,'0'), mm = String(now.getMinutes()).padStart(2,'0');
+  logs.unshift({time:`${hh}:${mm}`,who:'사장',msg:`${a.t} ${a.state==='yes'?'승인':'반려'}`});
+  renderAppr(); renderFilters(); renderLog();
+});
+
+function renderBars(){
+  const max = Math.max(...done.map(d=>d.v));
+  document.getElementById('bars').innerHTML = done.map(d=>`
+    <div class="bar-row" tabindex="0" aria-label="${esc(d.name)} ${d.v}건: ${esc(d.d)}">
+      <span>${esc(d.name)}</span>
+      <div class="bar-track"><div class="bar" style="width:${d.v/max*100}%"></div></div>
+      <span class="bar-val">${d.v}</span>
+      <span class="tip">${esc(d.d)}</span>
+    </div>`).join('');
+  document.getElementById('tbl').innerHTML = done.map(d=>`<tr><td>${esc(d.name)}</td><td class="r">${d.v}</td></tr>`).join('') +
+    `<tr><td><b>합계</b></td><td class="r"><b>${done.reduce((s,d)=>s+d.v,0)}</b></td></tr>`;
+}
+
+function renderRej(){
+  document.getElementById('rej').innerHTML = rejections.map(r=>`
+    <div class="item"><div class="badge">${ICON.warn} 반려 ${esc(r.n)} · ${r.open?'재작업 중':'수정 완료'}</div>
+    <div class="t" style="margin-top:4px">${esc(r.t)}</div><div class="m">${esc(r.who)}</div>
+    <div class="reason">${esc(r.reason)}</div></div>`).join('');
+}
+
+function renderFilters(){
+  const names = ['전체',...new Set(logs.map(l=>l.who))];
+  document.getElementById('filters').innerHTML = names.map(n=>`<button class="chip" aria-pressed="${n===filter}" data-f="${esc(n)}">${esc(n)}</button>`).join('');
+}
+document.getElementById('filters').addEventListener('click',e=>{
+  const b = e.target.closest('button[data-f]'); if(!b) return;
+  filter = b.dataset.f; renderFilters(); renderLog();
+});
+function renderLog(){
+  const rows = logs.filter(l=>filter==='전체'||l.who===filter);
+  document.getElementById('log').innerHTML = rows.map(l=>`<li><span class="time">${esc(l.time)}</span><span><span class="who">${esc(l.who)}</span> · ${esc(l.msg)}</span></li>`).join('');
+}
+
+renderSteps(); renderAgents(); renderAppr(); renderBars(); renderRej(); renderFilters(); renderLog();
+</script>
+</body>
+</html>
